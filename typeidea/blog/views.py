@@ -1,6 +1,7 @@
 from django.shortcuts import render
 from django.http import HttpResponse
 
+from config.models import SideBar
 from .models import Tag, Post, Category
 
 
@@ -18,7 +19,9 @@ def post_list(request, category_id=None, tag_id=None):
         'post_list': posts_list,
         'tag': tag,
         'category': category,
+        'sidebars': SideBar.get_all(),
     }
+    context.update(Category.get_navs())
     return render(request, 'blog/list.html', context=context)
 
 
@@ -28,6 +31,8 @@ def post_detail(request, post_id):
     except Post.DoesNotExist:
         post = None
     context = {
-        'post': post
+        'post': post,
+        'sidebars': SideBar.get_all(),
     }
+    context.update(Category.get_navs())
     return render(request, 'blog/detail.html', context=context)
