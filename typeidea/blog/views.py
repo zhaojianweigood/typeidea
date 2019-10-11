@@ -1,24 +1,23 @@
 from django.shortcuts import render
 from django.http import HttpResponse
 
-from .models import Tag, Post
+from .models import Tag, Post, Category
 
 
 def post_list(request, category_id=None, tag_id=None):
+    tag = None
+    category = None
     if tag_id:
-        try:
-            tag = Tag.objects.get(id=tag_id)
-        except Tag.DoesNotExist:
-            posts_list =[]
-        else:
-            posts_list = tag.post_set.filter(status=Post.STATUS_NORMAL)
+        posts_list, tag = Post.get_by_tag(tag_id)
+    elif category_id:
+        posts_list, category = Post.get_by_category(category_id)
     else:
-        posts_list = Post.objects.filter(status=Post.STATUS_NORMAL)
-        if category_id:
-            posts_list = posts_list.filter(category_id=category_id)
+        posts_list = Post.latest_posts()
 
     context = {
-        'post_list': posts_list
+        'post_list': posts_list,
+        'tag': tag,
+        'category': category,
     }
     return render(request, 'blog/list.html', context=context)
 
