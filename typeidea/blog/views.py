@@ -1,6 +1,7 @@
 from django.shortcuts import render, get_object_or_404
 from django.http import HttpResponse
 from django.views.generic import DetailView, ListView
+from django.db.models import Q
 
 from config.models import SideBar
 from .models import Tag, Post, Category
@@ -69,6 +70,30 @@ class TagView(IndexView):
         tag_id = self.kwargs.get('tag_id')
         print(tag_id, '1113123')
         return queryset.filter(tag__id=tag_id)
+
+
+class SearchView(IndexView):
+    def get_context_data(self):
+        context = super(SearchView, self).get_context_data()
+        context.update({
+            'keyword': self.request.GET.get('keyword', '')
+        })
+        return context
+
+    def get_queryset(self):
+        queryset = super(SearchView, self).get_queryset()
+        keyword = self.request.GET.get('keyword')
+        print(keyword)
+        if not keyword:
+            return queryset
+        return queryset.filter(Q(title_icontains=keyword)| Q(desc__icontains=keyword))
+
+
+class AuthorView(IndexView):
+    def get_queryset(self):
+        query_set = super(AuthorView, self).get_queryset()
+        author_id = self.kwargs.get('owner_id')
+        return query_set.filter(owner_id=author_id)
 
 
 def post_list(request, category_id=None, tag_id=None):

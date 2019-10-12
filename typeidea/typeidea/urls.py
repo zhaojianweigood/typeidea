@@ -16,8 +16,8 @@ Including another URLconf
 from django.conf.urls import url
 from django.contrib import admin
 
-from blog.views import post_list, post_detail, PostDetailView, PostListView, IndexView, TagView, CategoryView
-from config.views import links
+from blog.views import post_list, post_detail, PostDetailView, PostListView, IndexView, TagView, CategoryView, SearchView, AuthorView
+from config.views import links, LinkView
 from typeidea.custom_site import custom_site
 
 urlpatterns = [
@@ -36,5 +36,14 @@ urlpatterns = [
     # url(r'^post/(?P<post_id>\d+)/$', post_detail, name='post-detail'),
     url(r'^post/(?P<post_id>\d+)/$', PostDetailView.as_view(), name='post-detail'),
 
-    url(r'^links/$', links, name='links'),
+
+
+    url(r'^search/$', SearchView.as_view(), name='search'),
+    url(r'^author/(?P<owner_id>\d+)/$', AuthorView.as_view(), name='author'),
+
+    # url(r'^links/$', links, name='links'),
+    url(r'^links/$', LinkView.as_view(), name='links'),
+
+
+
 ]
