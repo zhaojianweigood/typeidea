@@ -18,6 +18,7 @@ from django.contrib import admin
 
 from blog.views import post_list, post_detail, PostDetailView, PostListView, IndexView, TagView, CategoryView, SearchView, AuthorView
 from config.views import links, LinkView
+from comment.views import CommentView
 from typeidea.custom_site import custom_site
 
 urlpatterns = [
@@ -44,6 +45,6 @@ urlpatterns = [
     # url(r'^links/$', links, name='links'),
     url(r'^links/$', LinkView.as_view(), name='links'),
 
-
+    url(r'^comment/$', CommentView.as_view(), name='comment'),
 
 ]

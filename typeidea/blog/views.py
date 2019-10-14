@@ -5,6 +5,8 @@ from django.db.models import Q
 
 from config.models import SideBar
 from .models import Tag, Post, Category
+from comment.forms import CommentForm
+from comment.models import Comment
 
 
 class PostListView(DetailView):
@@ -19,6 +21,14 @@ class PostDetailView(DetailView):
     template_name = 'blog/detail.html'
     context_object_name = 'post'
     pk_url_kwarg = 'post_id'
+    #
+    # def get_context_data(self, **kwargs):
+    #     context = super(PostDetailView, self).get_context_data(**kwargs)
+    #     context.update({
+    #         'comment_form': CommentForm,
+    #         'comment_list': Comment.get_by_target(self.request.path)
+    #     })
+    #     return context
 
 
 class CommonViewMixin:
