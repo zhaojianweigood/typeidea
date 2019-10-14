@@ -13,7 +13,7 @@ Including another URLconf
     1. Import the include() function: from django.conf.urls import url, include
     2. Add a URL to urlpatterns:  url(r'^blog/', include('blog.urls'))
 """
-from django.conf.urls import url
+from django.conf.urls import url, include
 from django.contrib import admin
 
 from blog.views import post_list, post_detail, PostDetailView, PostListView, IndexView, TagView, CategoryView, SearchView, AuthorView
@@ -21,6 +21,12 @@ from config.views import links, LinkView
 from comment.views import CommentView
 from typeidea.custom_site import custom_site
 from blog.rss import LatestPostFeed
+from blog.apis import post_list, PostList, PostViewSet
+from rest_framework.routers import DefaultRouter
+from rest_framework.documentation import include_docs_urls
+
+router = DefaultRouter()
+router.register(r'post', PostViewSet, base_name='api-post')
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls, name='super-admin'),
@@ -48,5 +54,11 @@ urlpatterns = [
 
     url(r'^comment/$', CommentView.as_view(), name='comment'),
     url(r'^rss|feed/$', LatestPostFeed(), name='rss'),
+
+    # url(r'^api/post/$', post_list, name='post-list'),
+    # url(r'^api/post/$', LatestPostFeed(), name='rss'),
+    url(r'^api/', include(router.urls)),
+
+    url(r'^api/docs/', include_docs_urls(title='typeidea apis')),
 
 ]
