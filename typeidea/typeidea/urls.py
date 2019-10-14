@@ -21,12 +21,13 @@ from config.views import links, LinkView
 from comment.views import CommentView
 from typeidea.custom_site import custom_site
 from blog.rss import LatestPostFeed
-from blog.apis import post_list, PostList, PostViewSet
+from blog.apis import post_list, PostList, PostViewSet, CategoryViewSet
 from rest_framework.routers import DefaultRouter
 from rest_framework.documentation import include_docs_urls
 
 router = DefaultRouter()
 router.register(r'post', PostViewSet, base_name='api-post')
+router.register(r'category', CategoryViewSet, base_name='api-category')
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls, name='super-admin'),
