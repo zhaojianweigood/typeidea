@@ -20,6 +20,7 @@ from blog.views import post_list, post_detail, PostDetailView, PostListView, Ind
 from config.views import links, LinkView
 from comment.views import CommentView
 from typeidea.custom_site import custom_site
+from blog.rss import LatestPostFeed
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls, name='super-admin'),
@@ -46,5 +47,6 @@ urlpatterns = [
     url(r'^links/$', LinkView.as_view(), name='links'),
 
     url(r'^comment/$', CommentView.as_view(), name='comment'),
+    url(r'^rss|feed/$', LatestPostFeed(), name='rss'),
 
 ]
