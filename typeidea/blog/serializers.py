@@ -1,5 +1,4 @@
 from rest_framework import serializers, pagination
-
 from .models import Post, Category
 
 

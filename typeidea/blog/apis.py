@@ -6,6 +6,10 @@ from rest_framework.permissions import IsAdminUser
 
 from .models import Post, Category
 from .serializers import PostSerializers, PostDetailSerializers, CategorySerializer, CategoryDetailSerialize
+# 5中mixin， 可以配合 GenericAPIView， 自己构造
+# from rest_framework.mixins import CreateModelMixin, DestroyModelMixin, UpdateModelMixin, \
+#               ListModelMixin,  RetrieveModelMixin
+# from rest_framework.generics import GenericAPIView
 
 
 @api_view()
